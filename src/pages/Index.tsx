@@ -1,27 +1,32 @@
 import { useHabitTracker } from '@/hooks/useHabitTracker';
 import { SetupForm } from '@/components/SetupForm';
-import { HabitTable } from '@/components/HabitTable';
+import { HabitGrid } from '@/components/HabitGrid';
 import { ProgressBar } from '@/components/ProgressBar';
+import { DailyProgress } from '@/components/DailyProgress';
 import { RotateCcw } from 'lucide-react';
 
 const Index = () => {
   const {
     isSetup,
     totalDays,
-    completedDays,
-    completedCount,
+    habits,
+    completionMatrix,
+    completedCells,
+    totalCells,
     progressPercentage,
     setupTracker,
-    toggleDay,
+    toggleCell,
     resetTracker,
     getDateForDay,
+    getTodayIndex,
+    getDayProgress,
   } = useHabitTracker();
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card">
-        <div className="container max-w-3xl mx-auto px-4 py-4">
+        <div className="container max-w-6xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold text-foreground">
               Daily Habit Tracker
@@ -40,27 +45,35 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container max-w-3xl mx-auto px-4 py-8">
+      <main className="container max-w-6xl mx-auto px-4 py-8">
         {!isSetup ? (
           <SetupForm onSetup={setupTracker} />
         ) : (
           <div className="space-y-6">
-            {/* Progress */}
-            <ProgressBar
-              completedCount={completedCount}
+            {/* Daily Progress */}
+            <DailyProgress
+              todayIndex={getTodayIndex()}
               totalDays={totalDays}
+              getDayProgress={getDayProgress}
+              getDateForDay={getDateForDay}
+            />
+
+            {/* Overall Progress */}
+            <ProgressBar
+              completedCells={completedCells}
+              totalCells={totalCells}
               progressPercentage={progressPercentage}
             />
 
-            {/* Table */}
-            <div className="bg-card border border-border rounded-lg overflow-hidden">
-              <HabitTable
-                totalDays={totalDays}
-                completedDays={completedDays}
-                getDateForDay={getDateForDay}
-                onToggleDay={toggleDay}
-              />
-            </div>
+            {/* Habit Grid */}
+            <HabitGrid
+              habits={habits}
+              totalDays={totalDays}
+              completionMatrix={completionMatrix}
+              getDateForDay={getDateForDay}
+              getTodayIndex={getTodayIndex}
+              onToggleCell={toggleCell}
+            />
 
             {/* Info */}
             <p className="text-center text-sm text-muted-foreground">

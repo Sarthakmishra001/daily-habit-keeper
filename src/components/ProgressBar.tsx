@@ -1,20 +1,20 @@
 interface ProgressBarProps {
-  completedCount: number;
-  totalDays: number;
+  completedCells: number;
+  totalCells: number;
   progressPercentage: number;
 }
 
 export const ProgressBar = ({
-  completedCount,
-  totalDays,
+  completedCells,
+  totalCells,
   progressPercentage,
 }: ProgressBarProps) => {
   return (
     <div className="w-full bg-card border border-border rounded-lg p-4">
       <div className="flex items-center justify-between mb-3">
-        <span className="text-sm font-medium text-foreground">Progress</span>
+        <span className="text-sm font-medium text-foreground">Overall Progress</span>
         <span className="text-sm font-semibold text-foreground">
-          {completedCount} / {totalDays} days
+          {completedCells} / {totalCells} checkboxes
         </span>
       </div>
       <div className="w-full h-3 bg-muted rounded-full overflow-hidden">
