@@ -40,15 +40,15 @@ export const HabitGrid = ({
               return (
                 <th
                   key={dayIndex}
-                  className={`min-w-[60px] text-center ${
-                    isToday ? 'bg-primary/10' : ''
+                  className={`min-w-[60px] text-center transition-colors ${
+                    isToday ? 'bg-emerald-100 dark:bg-emerald-900/40' : ''
                   }`}
                 >
                   <div className="flex flex-col items-center">
-                    <span className={`text-xs ${isToday ? 'text-primary font-bold' : 'text-muted-foreground'}`}>
+                    <span className={`text-xs ${isToday ? 'text-emerald-700 dark:text-emerald-400 font-bold' : 'text-muted-foreground'}`}>
                       Day {dayIndex + 1}
                     </span>
-                    <span className={`text-[10px] ${isToday ? 'text-primary' : 'text-muted-foreground'}`}>
+                    <span className={`text-[10px] ${isToday ? 'text-emerald-600 dark:text-emerald-500' : 'text-muted-foreground'}`}>
                       {formatShortDate(date)}
                     </span>
                   </div>
@@ -71,14 +71,16 @@ export const HabitGrid = ({
                 return (
                   <td
                     key={dayIndex}
-                    className={`text-center p-1 ${isToday ? 'bg-primary/5' : ''}`}
+                    className={`text-center p-1 transition-colors ${
+                      isToday ? 'bg-emerald-50 dark:bg-emerald-950/30' : ''
+                    }`}
                   >
                     <button
                       onClick={() => onToggleCell(habitIndex, dayIndex)}
-                      className={`w-7 h-7 rounded border-2 flex items-center justify-center mx-auto transition-all ${
+                      className={`w-7 h-7 rounded border-2 flex items-center justify-center mx-auto transition-all duration-200 ${
                         isCompleted
-                          ? 'bg-accent border-accent text-accent-foreground'
-                          : 'border-input bg-background hover:border-primary/50'
+                          ? 'bg-emerald-500 border-emerald-500 text-white shadow-sm'
+                          : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-800 hover:border-emerald-400 hover:bg-gray-200 dark:hover:bg-gray-700'
                       }`}
                       aria-label={isCompleted ? 'Mark as incomplete' : 'Mark as complete'}
                     >
