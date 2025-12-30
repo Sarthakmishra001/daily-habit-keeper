@@ -3,15 +3,17 @@ import { useState, useEffect, useCallback } from 'react';
 interface HabitData {
   startDate: string;
   totalDays: number;
-  completedDays: boolean[];
+  habits: string[];
+  completionMatrix: boolean[][]; // [habitIndex][dayIndex]
 }
 
-const STORAGE_KEY = 'daily-habit-tracker';
+const STORAGE_KEY = 'daily-habit-tracker-v2';
 
 const getDefaultData = (): HabitData => ({
   startDate: '',
   totalDays: 0,
-  completedDays: [],
+  habits: [],
+  completionMatrix: [],
 });
 
 export const useHabitTracker = () => {
@@ -27,26 +29,30 @@ export const useHabitTracker = () => {
     return getDefaultData();
   });
 
-  const [isSetup, setIsSetup] = useState(data.startDate !== '' && data.totalDays > 0);
+  const [isSetup, setIsSetup] = useState(
+    data.startDate !== '' && data.totalDays > 0 && data.habits.length > 0
+  );
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   }, [data]);
 
-  const setupTracker = useCallback((startDate: string, totalDays: number) => {
+  const setupTracker = useCallback((startDate: string, totalDays: number, habits: string[]) => {
+    const matrix = habits.map(() => new Array(totalDays).fill(false));
     setData({
       startDate,
       totalDays,
-      completedDays: new Array(totalDays).fill(false),
+      habits,
+      completionMatrix: matrix,
     });
     setIsSetup(true);
   }, []);
 
-  const toggleDay = useCallback((dayIndex: number) => {
+  const toggleCell = useCallback((habitIndex: number, dayIndex: number) => {
     setData(prev => {
-      const newCompletedDays = [...prev.completedDays];
-      newCompletedDays[dayIndex] = !newCompletedDays[dayIndex];
-      return { ...prev, completedDays: newCompletedDays };
+      const newMatrix = prev.completionMatrix.map(row => [...row]);
+      newMatrix[habitIndex][dayIndex] = !newMatrix[habitIndex][dayIndex];
+      return { ...prev, completionMatrix: newMatrix };
     });
   }, []);
 
@@ -63,21 +69,42 @@ export const useHabitTracker = () => {
     return date;
   }, [data.startDate]);
 
-  const completedCount = data.completedDays.filter(Boolean).length;
-  const progressPercentage = data.totalDays > 0 
-    ? Math.round((completedCount / data.totalDays) * 100) 
-    : 0;
+  // Get today's day index (0-based)
+  const getTodayIndex = useCallback((): number => {
+    const start = new Date(data.startDate);
+    start.setHours(0, 0, 0, 0);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffTime = today.getTime() - start.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  }, [data.startDate]);
+
+  // Get completion count for a specific day
+  const getDayProgress = useCallback((dayIndex: number): { completed: number; total: number } => {
+    const completed = data.completionMatrix.filter(row => row[dayIndex]).length;
+    return { completed, total: data.habits.length };
+  }, [data.completionMatrix, data.habits.length]);
+
+  // Overall progress
+  const totalCells = data.habits.length * data.totalDays;
+  const completedCells = data.completionMatrix.flat().filter(Boolean).length;
+  const progressPercentage = totalCells > 0 ? Math.round((completedCells / totalCells) * 100) : 0;
 
   return {
     isSetup,
     startDate: data.startDate,
     totalDays: data.totalDays,
-    completedDays: data.completedDays,
-    completedCount,
+    habits: data.habits,
+    completionMatrix: data.completionMatrix,
+    completedCells,
+    totalCells,
     progressPercentage,
     setupTracker,
-    toggleDay,
+    toggleCell,
     resetTracker,
     getDateForDay,
+    getTodayIndex,
+    getDayProgress,
   };
 };
