@@ -77,8 +77,8 @@ export const HabitGrid = ({
                       onClick={() => onToggleCell(habitIndex, dayIndex)}
                       className={`w-7 h-7 rounded border-2 flex items-center justify-center mx-auto transition-all ${
                         isCompleted
-                          ? 'bg-accent border-accent text-accent-foreground'
-                          : 'border-input bg-background hover:border-primary/50'
+                          ? 'bg-green-500 border-green-500 text-white hover:bg-green-600 hover:border-green-600'
+                          : 'border-gray-300 bg-gray-100 text-gray-400 hover:border-gray-400 hover:bg-gray-200'
                       }`}
                       aria-label={isCompleted ? 'Mark as incomplete' : 'Mark as complete'}
                     >

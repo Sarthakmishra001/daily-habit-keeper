@@ -91,6 +91,17 @@ export const useHabitTracker = () => {
   const completedCells = data.completionMatrix.flat().filter(Boolean).length;
   const progressPercentage = totalCells > 0 ? Math.round((completedCells / totalCells) * 100) : 0;
 
+  // Calculate completed days (days with at least one completed habit)
+  const completedDays = (() => {
+    if (data.totalDays === 0 || data.habits.length === 0) return 0;
+    let daysWithCompletions = 0;
+    for (let dayIndex = 0; dayIndex < data.totalDays; dayIndex++) {
+      const hasAnyCompletion = data.completionMatrix.some(row => row[dayIndex]);
+      if (hasAnyCompletion) daysWithCompletions++;
+    }
+    return daysWithCompletions;
+  })();
+
   return {
     isSetup,
     startDate: data.startDate,
@@ -100,6 +111,7 @@ export const useHabitTracker = () => {
     completedCells,
     totalCells,
     progressPercentage,
+    completedDays,
     setupTracker,
     toggleCell,
     resetTracker,

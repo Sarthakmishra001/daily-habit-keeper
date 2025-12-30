@@ -3,6 +3,7 @@ import { SetupForm } from '@/components/SetupForm';
 import { HabitGrid } from '@/components/HabitGrid';
 import { ProgressBar } from '@/components/ProgressBar';
 import { DailyProgress } from '@/components/DailyProgress';
+import { DashboardSummary } from '@/components/DashboardSummary';
 import { RotateCcw } from 'lucide-react';
 
 const Index = () => {
@@ -14,6 +15,7 @@ const Index = () => {
     completedCells,
     totalCells,
     progressPercentage,
+    completedDays,
     setupTracker,
     toggleCell,
     resetTracker,
@@ -50,6 +52,13 @@ const Index = () => {
           <SetupForm onSetup={setupTracker} />
         ) : (
           <div className="space-y-6">
+            {/* Dashboard Summary */}
+            <DashboardSummary
+              totalDays={totalDays}
+              completedDays={completedDays}
+              completionPercentage={progressPercentage}
+            />
+
             {/* Daily Progress */}
             <DailyProgress
               todayIndex={getTodayIndex()}
