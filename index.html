@@ -22,11 +22,17 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <link rel="manifest" href="manifest1.json">
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js");
-  }
-</script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker
+            .register("/service_worker.js")
+            .then(() => console.log("Service Worker Registered"))
+            .catch(err => console.log("SW registration failed", err));
+        });
+      }
+    </script>
+    
 
   </body>
 </html>
