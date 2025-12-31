@@ -4,6 +4,7 @@ import { HabitGrid } from '@/components/HabitGrid';
 import { ProgressBar } from '@/components/ProgressBar';
 import { DailyProgress } from '@/components/DailyProgress';
 import { DashboardSummary } from '@/components/DashboardSummary';
+import { Footer } from '@/components/Footer';
 import { RotateCcw } from 'lucide-react';
 
 const Index = () => {
@@ -25,7 +26,7 @@ const Index = () => {
   } = useHabitTracker();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
       <header className="border-b border-border bg-card">
         <div className="container max-w-6xl mx-auto px-3 md:px-4 py-2 md:py-4">
@@ -47,7 +48,7 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container max-w-6xl mx-auto px-3 md:px-4 py-2 md:py-8">
+      <main className="container max-w-6xl mx-auto px-3 md:px-4 py-2 md:py-8 flex-1">
         {!isSetup ? (
           <SetupForm onSetup={setupTracker} />
         ) : (
@@ -91,6 +92,9 @@ const Index = () => {
           </div>
         )}
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
