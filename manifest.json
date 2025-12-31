@@ -1,10 +1,14 @@
 {
   "name": "Daily Habit Tracker",
   "short_name": "HabitTracker",
+  "description": "A simple and powerful habit tracking app to build consistency and improve daily productivity.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",
+  "lang": "en",
   "icons": [
     {
       "src": "/icons/icon-192.png",

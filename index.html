@@ -8,7 +8,9 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="/" />
     <!-- <link rel="icon" type="image/svg+xml" href="/favicon.ico" /> -->
-
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5" />
+    
     <meta property="og:title" content="Daily Habit Tracker" />
     <meta property="og:description" content="Track your daily habits and build consistency with a simple Excel-like interface." />
     <meta property="og:type" content="website" />
@@ -21,7 +23,7 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <link rel="manifest" href="manifest1.json">
+    
     <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
