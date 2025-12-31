@@ -115,16 +115,40 @@
     @apply w-full border-collapse;
   }
 
+  /* Mobile: compact */
   .excel-table th,
   .excel-table td {
-    @apply border border-table-border px-4 py-3 text-sm;
+    @apply border border-table-border;
+    padding: 4px 6px;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .excel-table th {
     @apply bg-table-header font-medium text-left;
+    font-size: 11px;
+    font-weight: 600;
   }
 
-  .excel-table tr:hover td {
+  /* Desktop: normal sizes */
+  @media (min-width: 768px) {
+    .excel-table th,
+    .excel-table td {
+      padding: 12px 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .excel-table th {
+      font-size: 14px;
+    }
+  }
+
+  .excel-table tbody tr {
+    height: auto;
+  }
+
+  .excel-table tbody tr:hover td {
     @apply bg-table-row-hover;
   }
 
