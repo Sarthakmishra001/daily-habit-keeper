@@ -28,6 +28,22 @@
     <link rel="manifest" href="/manifest.json" />
     
     <title>Daily Habit Tracker - SARTHAK</title>
+    <script>
+      // Initialize theme immediately to prevent flash
+      (function() {
+        const themeStorageKey = 'habit-tracker-theme';
+        const stored = localStorage.getItem(themeStorageKey);
+        const root = document.documentElement;
+        
+        if (stored === 'light' || stored === 'dark') {
+          root.classList.add(stored);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          root.classList.add('dark');
+        } else {
+          root.classList.add('light');
+        }
+      })();
+    </script>
   </head>
 
   <body>

@@ -5,6 +5,7 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { DailyProgress } from '@/components/DailyProgress';
 import { DashboardSummary } from '@/components/DashboardSummary';
 import { Footer } from '@/components/Footer';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { RotateCcw } from 'lucide-react';
 
 const Index = () => {
@@ -34,15 +35,18 @@ const Index = () => {
             <h1 className="text-sm md:text-xl font-semibold text-foreground">
               Daily Habit Tracker
             </h1>
-            {isSetup && (
-              <button
-                onClick={resetTracker}
-                className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
-              >
-                <RotateCcw className="w-3 h-3 md:w-4 md:h-4" />
-                Reset
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              {isSetup && (
+                <button
+                  onClick={resetTracker}
+                  className="flex items-center gap-1 md:gap-2 px-2 md:px-3 py-1 md:py-2 text-xs md:text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors"
+                >
+                  <RotateCcw className="w-3 h-3 md:w-4 md:h-4" />
+                  Reset
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </header>
