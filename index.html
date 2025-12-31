@@ -3,21 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Habit Tracker - SARTHAK</title>
     <meta name="description" content="Simple daily habit tracker to help you build consistency. Track your progress with an easy-to-use Excel-like interface." />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="/" />
-    <!-- <link rel="icon" type="image/svg+xml" href="/favicon.ico" /> -->
-    <link rel="manifest" href="/manifest.json">
     <meta name="theme-color" content="#4f46e5" />
     
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Habit Tracker" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
     <meta property="og:title" content="Daily Habit Tracker" />
     <meta property="og:description" content="Track your daily habits and build consistency with a simple Excel-like interface." />
-    <meta property="og:type" content="website" />
-
+    
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Daily Habit Tracker" />
     <meta name="twitter:description" content="Track your daily habits and build consistency." />
+    
+    <!-- Links -->
+    <link rel="canonical" href="/" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    
+    <title>Daily Habit Tracker - SARTHAK</title>
   </head>
 
   <body>
@@ -25,16 +35,19 @@
     <script type="module" src="/src/main.tsx"></script>
     
     <script>
+      // Register Service Worker for PWA
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
             .register("/service_worker.js")
-            .then(() => console.log("Service Worker Registered"))
-            .catch(err => console.log("SW registration failed", err));
+            .then((registration) => {
+              console.log("Service Worker registered successfully:", registration.scope);
+            })
+            .catch((err) => {
+              console.error("Service Worker registration failed:", err);
+            });
         });
       }
     </script>
-    
-
   </body>
 </html>
