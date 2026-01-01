@@ -5,6 +5,7 @@ import { HabitGrid } from '@/components/HabitGrid';
 import { ProgressBar } from '@/components/ProgressBar';
 import { DailyProgress } from '@/components/DailyProgress';
 import { DashboardSummary } from '@/components/DashboardSummary';
+import { ProgressTracker } from '@/components/ProgressTracker';
 import { Footer } from '@/components/Footer';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
@@ -13,6 +14,7 @@ import { RotateCcw, Bell } from 'lucide-react';
 const Index = () => {
   const {
     isSetup,
+    startDate,
     totalDays,
     habits,
     completionMatrix,
@@ -127,6 +129,15 @@ const Index = () => {
               getDateForDay={getDateForDay}
               getTodayIndex={getTodayIndex}
               onToggleCell={toggleCell}
+            />
+
+            {/* Progress Tracker */}
+            <ProgressTracker
+              habits={habits}
+              completionMatrix={completionMatrix}
+              startDate={startDate}
+              totalDays={totalDays}
+              getDateForDay={getDateForDay}
             />
 
             {/* Info */}
