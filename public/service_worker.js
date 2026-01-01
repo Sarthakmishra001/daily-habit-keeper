@@ -85,3 +85,16 @@ self.addEventListener("fetch", (event) => {
       })
   );
 });
+
+// Periodic Sync Event - Background Habit Reminders
+self.addEventListener("periodicsync", (event) => {
+  if (event.tag === "habit-reminder") {
+    event.waitUntil(
+      self.registration.showNotification("⏰ Habit Reminder", {
+        body: "Time to complete your habits 💪",
+        icon: "/icons/192.png",
+        badge: "/icons/192.png"
+      })
+    );
+  }
+});

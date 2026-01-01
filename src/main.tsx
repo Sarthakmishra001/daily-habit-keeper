@@ -19,4 +19,14 @@ const initializeTheme = () => {
 // Initialize theme immediately
 initializeTheme();
 
+// Register Service Worker
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/service_worker.js")
+      .then(() => console.log("Service Worker Registered"))
+      .catch(err => console.error("SW Error:", err));
+  });
+}
+
 createRoot(document.getElementById("root")!).render(<App />);

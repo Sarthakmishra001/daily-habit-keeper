@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useHabitTracker } from '@/hooks/useHabitTracker';
 import { SetupForm } from '@/components/SetupForm';
 import { HabitGrid } from '@/components/HabitGrid';
@@ -6,7 +7,8 @@ import { DailyProgress } from '@/components/DailyProgress';
 import { DashboardSummary } from '@/components/DashboardSummary';
 import { Footer } from '@/components/Footer';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { RotateCcw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { RotateCcw, Bell } from 'lucide-react';
 
 const Index = () => {
   const {
@@ -26,6 +28,33 @@ const Index = () => {
     getDayProgress,
   } = useHabitTracker();
 
+  const [notificationsEnabled, setNotificationsEnabled] = useState(
+    Notification.permission === 'granted'
+  );
+
+  const registerReminder = async () => {
+    if ("serviceWorker" in navigator) {
+      const reg = await navigator.serviceWorker.ready;
+
+      if ("periodicSync" in reg) {
+        await reg.periodicSync.register("habit-reminder", {
+          minInterval: 3 * 60 * 60 * 1000
+        });
+      }
+    }
+  };
+
+  const enableNotifications = async () => {
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      setNotificationsEnabled(true);
+      await registerReminder();
+      alert("Notifications enabled");
+    } else {
+      alert("Notification permission denied");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -36,6 +65,17 @@ const Index = () => {
               Daily Habit Tracker
             </h1>
             <div className="flex items-center gap-2">
+              {!notificationsEnabled && (
+                <Button
+                  onClick={enableNotifications}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-1 md:gap-2 text-xs md:text-sm"
+                >
+                  <Bell className="w-3 h-3 md:w-4 md:h-4" />
+                  <span className="hidden sm:inline">Enable Reminders</span>
+                </Button>
+              )}
               <ThemeToggle />
               {isSetup && (
                 <button
