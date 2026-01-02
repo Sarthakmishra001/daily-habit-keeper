@@ -6,10 +6,11 @@ import { ProgressBar } from '@/components/ProgressBar';
 import { DailyProgress } from '@/components/DailyProgress';
 import { DashboardSummary } from '@/components/DashboardSummary';
 import { ProgressTracker } from '@/components/ProgressTracker';
+import { AddHabitDialog } from '@/components/AddHabitDialog';
 import { Footer } from '@/components/Footer';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
-import { RotateCcw, Bell } from 'lucide-react';
+import { RotateCcw, Bell, Plus } from 'lucide-react';
 
 const Index = () => {
   const {
@@ -25,6 +26,7 @@ const Index = () => {
     setupTracker,
     toggleCell,
     resetTracker,
+    addHabit,
     getDateForDay,
     getTodayIndex,
     getDayProgress,
@@ -33,6 +35,7 @@ const Index = () => {
   const [notificationsEnabled, setNotificationsEnabled] = useState(
     Notification.permission === 'granted'
   );
+  const [isAddHabitDialogOpen, setIsAddHabitDialogOpen] = useState(false);
 
   const registerReminder = async () => {
     if ("serviceWorker" in navigator) {
@@ -121,6 +124,18 @@ const Index = () => {
               progressPercentage={progressPercentage}
             />
 
+            {/* Add Habit Button */}
+            <div className="flex justify-center">
+              <Button
+                onClick={() => setIsAddHabitDialogOpen(true)}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Plus className="w-4 h-4" />
+                Add More Habit
+              </Button>
+            </div>
+
             {/* Habit Grid */}
             <HabitGrid
               habits={habits}
@@ -150,6 +165,14 @@ const Index = () => {
 
       {/* Footer */}
       <Footer />
+
+      {/* Add Habit Dialog */}
+      <AddHabitDialog
+        open={isAddHabitDialogOpen}
+        onOpenChange={setIsAddHabitDialogOpen}
+        onAddHabit={addHabit}
+        existingHabits={habits}
+      />
     </div>
   );
 };

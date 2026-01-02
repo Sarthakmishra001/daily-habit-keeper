@@ -62,6 +62,25 @@ export const useHabitTracker = () => {
     localStorage.removeItem(STORAGE_KEY);
   }, []);
 
+  const addHabit = useCallback((habitName: string) => {
+    if (!habitName.trim()) return;
+    
+    setData(prev => {
+      // Add new habit to the list
+      const newHabits = [...prev.habits, habitName.trim()];
+      
+      // Add new row to completion matrix (all false for existing days)
+      const newMatrix = [...prev.completionMatrix];
+      newMatrix.push(new Array(prev.totalDays).fill(false));
+      
+      return {
+        ...prev,
+        habits: newHabits,
+        completionMatrix: newMatrix,
+      };
+    });
+  }, []);
+
   const getDateForDay = useCallback((dayIndex: number): Date => {
     const start = new Date(data.startDate);
     const date = new Date(start);
@@ -115,6 +134,7 @@ export const useHabitTracker = () => {
     setupTracker,
     toggleCell,
     resetTracker,
+    addHabit,
     getDateForDay,
     getTodayIndex,
     getDayProgress,
